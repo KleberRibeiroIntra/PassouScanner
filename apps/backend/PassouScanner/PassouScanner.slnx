@@ -1,0 +1,7 @@
+<Solution>
+  <Project Path="PassouScanner.Api/PassouScanner.Api.csproj" />
+  <Project Path="PassouScanner.Domain/PassouScanner.Domain.csproj" />
+  <Project Path="PassouScanner.Domain.Data/PassouScanner.Domain.Data.csproj" />
+  <Project Path="PassouScanner.Domain.AppService/PassouScanner.Domain.AppService.csproj" />
+  <Project Path="PassouScanner.IoC/PassouScanner.IoC.csproj" />
+</Solution>
