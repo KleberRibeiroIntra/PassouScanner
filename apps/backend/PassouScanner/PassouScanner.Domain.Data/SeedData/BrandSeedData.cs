@@ -1,9 +1,5 @@
 namespace PassouScanner.Domain.Data.SeedData;
 
-/// <summary>
-/// Marcas vendidas no Brasil, incluindo as que já saíram do mercado mas ainda circulam na frota
-/// (ex: Troller, Gurgel, Kasinski). Referência: tabela FIPE.
-/// </summary>
 internal static class BrandSeedData
 {
     public static readonly string[] CarBrands =

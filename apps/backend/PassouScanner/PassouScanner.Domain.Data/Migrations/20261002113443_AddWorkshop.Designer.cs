@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using PassouScanner.Domain.Data;
 
@@ -10,9 +11,11 @@ using PassouScanner.Domain.Data;
 namespace PassouScanner.Domain.Data.Migrations
 {
     [DbContext(typeof(PassouScannerDbContext))]
-    partial class PassouScannerDbContextModelSnapshot : ModelSnapshot
+    [Migration("20261002113443_AddWorkshop")]
+    partial class AddWorkshop
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder.HasAnnotation("ProductVersion", "10.0.12");
@@ -60,120 +63,6 @@ namespace PassouScanner.Domain.Data.Migrations
                     b.ToTable("Brand");
                 });
 
-            modelBuilder.Entity("PassouScanner.Domain.Entities.Maintenance", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("INTEGER");
-
-                    b.Property<bool>("Active")
-                        .HasColumnType("INTEGER");
-
-                    b.Property<decimal?>("Cost")
-                        .HasColumnType("TEXT");
-
-                    b.Property<DateTime>("CreatedAt")
-                        .HasColumnType("TEXT");
-
-                    b.Property<Guid>("CreatedBy")
-                        .HasColumnType("TEXT");
-
-                    b.Property<DateTime>("Date")
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("Description")
-                        .IsRequired()
-                        .HasMaxLength(500)
-                        .HasColumnType("TEXT");
-
-                    b.Property<int>("Mileage")
-                        .HasColumnType("INTEGER");
-
-                    b.Property<Guid>("NavigationId")
-                        .HasColumnType("TEXT");
-
-                    b.Property<DateTime?>("UpdatedAt")
-                        .HasColumnType("TEXT");
-
-                    b.Property<Guid?>("UpdatedBy")
-                        .HasColumnType("TEXT");
-
-                    b.Property<Guid>("VehicleId")
-                        .HasColumnType("TEXT");
-
-                    b.Property<Guid?>("WorkshopId")
-                        .HasColumnType("TEXT");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("NavigationId")
-                        .IsUnique();
-
-                    b.HasIndex("WorkshopId");
-
-                    b.HasIndex("VehicleId", "Date");
-
-                    b.ToTable("Maintenance");
-                });
-
-            modelBuilder.Entity("PassouScanner.Domain.Entities.MaintenanceItem", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("INTEGER");
-
-                    b.Property<bool>("Active")
-                        .HasColumnType("INTEGER");
-
-                    b.Property<DateTime>("CreatedAt")
-                        .HasColumnType("TEXT");
-
-                    b.Property<Guid>("CreatedBy")
-                        .HasColumnType("TEXT");
-
-                    b.Property<Guid>("MaintenanceId")
-                        .HasColumnType("TEXT");
-
-                    b.Property<Guid>("NavigationId")
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("PartBrand")
-                        .HasMaxLength(100)
-                        .HasColumnType("TEXT");
-
-                    b.Property<Guid>("PartId")
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("Position")
-                        .HasMaxLength(50)
-                        .HasColumnType("TEXT");
-
-                    b.Property<decimal?>("Price")
-                        .HasColumnType("TEXT");
-
-                    b.Property<int>("Quantity")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("INTEGER")
-                        .HasDefaultValue(1);
-
-                    b.Property<DateTime?>("UpdatedAt")
-                        .HasColumnType("TEXT");
-
-                    b.Property<Guid?>("UpdatedBy")
-                        .HasColumnType("TEXT");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("MaintenanceId");
-
-                    b.HasIndex("NavigationId")
-                        .IsUnique();
-
-                    b.HasIndex("PartId");
-
-                    b.ToTable("MaintenanceItem");
-                });
-
             modelBuilder.Entity("PassouScanner.Domain.Entities.Model", b =>
                 {
                     b.Property<int>("Id")
@@ -219,54 +108,6 @@ namespace PassouScanner.Domain.Data.Migrations
                         .IsUnique();
 
                     b.ToTable("Model");
-                });
-
-            modelBuilder.Entity("PassouScanner.Domain.Entities.Part", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("INTEGER");
-
-                    b.Property<bool>("Active")
-                        .HasColumnType("INTEGER");
-
-                    b.Property<DateTime>("CreatedAt")
-                        .HasColumnType("TEXT");
-
-                    b.Property<Guid>("CreatedBy")
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasMaxLength(200)
-                        .HasColumnType("TEXT");
-
-                    b.Property<Guid>("NavigationId")
-                        .HasColumnType("TEXT");
-
-                    b.Property<int?>("RecommendedMileage")
-                        .HasColumnType("INTEGER");
-
-                    b.Property<int?>("RecommendedMonths")
-                        .HasColumnType("INTEGER");
-
-                    b.Property<DateTime?>("UpdatedAt")
-                        .HasColumnType("TEXT");
-
-                    b.Property<Guid?>("UpdatedBy")
-                        .HasColumnType("TEXT");
-
-                    b.Property<Guid?>("VehicleTypeId")
-                        .HasColumnType("TEXT");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("NavigationId")
-                        .IsUnique();
-
-                    b.HasIndex("VehicleTypeId");
-
-                    b.ToTable("Part");
                 });
 
             modelBuilder.Entity("PassouScanner.Domain.Entities.User", b =>
@@ -517,47 +358,6 @@ namespace PassouScanner.Domain.Data.Migrations
                     b.Navigation("VehicleType");
                 });
 
-            modelBuilder.Entity("PassouScanner.Domain.Entities.Maintenance", b =>
-                {
-                    b.HasOne("PassouScanner.Domain.Entities.Vehicle", "Vehicle")
-                        .WithMany("Maintenances")
-                        .HasForeignKey("VehicleId")
-                        .HasPrincipalKey("NavigationId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
-                    b.HasOne("PassouScanner.Domain.Entities.Workshop", "Workshop")
-                        .WithMany("Maintenances")
-                        .HasForeignKey("WorkshopId")
-                        .HasPrincipalKey("NavigationId")
-                        .OnDelete(DeleteBehavior.Restrict);
-
-                    b.Navigation("Vehicle");
-
-                    b.Navigation("Workshop");
-                });
-
-            modelBuilder.Entity("PassouScanner.Domain.Entities.MaintenanceItem", b =>
-                {
-                    b.HasOne("PassouScanner.Domain.Entities.Maintenance", "Maintenance")
-                        .WithMany("Items")
-                        .HasForeignKey("MaintenanceId")
-                        .HasPrincipalKey("NavigationId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
-                    b.HasOne("PassouScanner.Domain.Entities.Part", "Part")
-                        .WithMany("MaintenanceItems")
-                        .HasForeignKey("PartId")
-                        .HasPrincipalKey("NavigationId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
-                    b.Navigation("Maintenance");
-
-                    b.Navigation("Part");
-                });
-
             modelBuilder.Entity("PassouScanner.Domain.Entities.Model", b =>
                 {
                     b.HasOne("PassouScanner.Domain.Entities.Brand", "Brand")
@@ -568,17 +368,6 @@ namespace PassouScanner.Domain.Data.Migrations
                         .IsRequired();
 
                     b.Navigation("Brand");
-                });
-
-            modelBuilder.Entity("PassouScanner.Domain.Entities.Part", b =>
-                {
-                    b.HasOne("PassouScanner.Domain.Entities.VehicleType", "VehicleType")
-                        .WithMany("Parts")
-                        .HasForeignKey("VehicleTypeId")
-                        .HasPrincipalKey("NavigationId")
-                        .OnDelete(DeleteBehavior.Restrict);
-
-                    b.Navigation("VehicleType");
                 });
 
             modelBuilder.Entity("PassouScanner.Domain.Entities.Vehicle", b =>
@@ -631,19 +420,9 @@ namespace PassouScanner.Domain.Data.Migrations
                     b.Navigation("Models");
                 });
 
-            modelBuilder.Entity("PassouScanner.Domain.Entities.Maintenance", b =>
-                {
-                    b.Navigation("Items");
-                });
-
             modelBuilder.Entity("PassouScanner.Domain.Entities.Model", b =>
                 {
                     b.Navigation("Vehicles");
-                });
-
-            modelBuilder.Entity("PassouScanner.Domain.Entities.Part", b =>
-                {
-                    b.Navigation("MaintenanceItems");
                 });
 
             modelBuilder.Entity("PassouScanner.Domain.Entities.User", b =>
@@ -655,21 +434,12 @@ namespace PassouScanner.Domain.Data.Migrations
 
             modelBuilder.Entity("PassouScanner.Domain.Entities.Vehicle", b =>
                 {
-                    b.Navigation("Maintenances");
-
                     b.Navigation("Mileages");
                 });
 
             modelBuilder.Entity("PassouScanner.Domain.Entities.VehicleType", b =>
                 {
                     b.Navigation("Brands");
-
-                    b.Navigation("Parts");
-                });
-
-            modelBuilder.Entity("PassouScanner.Domain.Entities.Workshop", b =>
-                {
-                    b.Navigation("Maintenances");
                 });
 #pragma warning restore 612, 618
         }

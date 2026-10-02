@@ -1,6 +1,5 @@
 namespace PassouScanner.Domain.Data.SeedData;
 
-/// <summary>Tipos de veículo iniciais, com ids fixos pra poderem ser referenciados no código e em outros seeds.</summary>
 internal static class VehicleTypeSeedData
 {
     public static readonly (Guid Id, string Name)[] VehicleTypes =

@@ -12,7 +12,6 @@ public class BrandConfiguration : IEntityTypeConfiguration<Brand>
         builder.HasIndex(b => new { b.VehicleTypeId, b.Name }).IsUnique();
         builder.Property(b => b.Name).HasMaxLength(100);
 
-        // Restrict: tipo de veículo com marca vinculada não pode ser excluído.
         builder.HasOne(b => b.VehicleType)
             .WithMany(v => v.Brands)
             .HasForeignKey(b => b.VehicleTypeId)

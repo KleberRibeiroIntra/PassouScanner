@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using PassouScanner.Domain.Data;
 
@@ -10,9 +11,11 @@ using PassouScanner.Domain.Data;
 namespace PassouScanner.Domain.Data.Migrations
 {
     [DbContext(typeof(PassouScannerDbContext))]
-    partial class PassouScannerDbContextModelSnapshot : ModelSnapshot
+    [Migration("20261002114427_AddMaintenanceItem")]
+    partial class AddMaintenanceItem
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder.HasAnnotation("ProductVersion", "10.0.12");

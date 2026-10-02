@@ -18,10 +18,8 @@ public abstract class ServiceBase<TEntity, TRequest, TResponse> : IServiceBase<T
         Validator = validator;
     }
 
-    /// <summary>Executa antes do CreateAsync/CreateRangeAsync persistir a entidade. Sobrescreva para adicionar regras além do validator injetado (ex: checagens de unicidade que precisam do repository).</summary>
     protected virtual Task ValidateCreateAsync(TEntity entity) => ValidateAsync(entity);
 
-    /// <summary>Executa antes do UpdateAsync persistir a entidade. Sobrescreva para adicionar regras além do validator injetado.</summary>
     protected virtual Task ValidateUpdateAsync(TEntity entity) => ValidateAsync(entity);
 
     protected virtual async Task ValidateAsync(TEntity entity)

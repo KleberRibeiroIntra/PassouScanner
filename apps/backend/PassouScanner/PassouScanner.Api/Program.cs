@@ -12,8 +12,6 @@ const string DevCorsPolicy = "DevCors";
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Adiciona os serviços ao container.
-
 builder.Services.AddCors(options =>
 {
     options.AddPolicy(DevCorsPolicy, policy =>
@@ -56,7 +54,6 @@ builder.Services.AddAuthorization();
 
 var app = builder.Build();
 
-// Configura o pipeline de requisições HTTP.
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
@@ -78,8 +75,6 @@ app.MapControllers();
 
 app.Run();
 
-// Caminho relativo do banco resolve a partir da pasta do projeto (não de onde o comando rodou), e a pasta é criada
-// se não existir: o SQLite cria o arquivo, mas não o diretório.
 static string ResolveSqlitePath(string connectionString, string contentRoot)
 {
     var sqlite = new SqliteConnectionStringBuilder(connectionString);

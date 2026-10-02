@@ -85,9 +85,6 @@ public abstract class RepositoryBase<T> : IRepositoryBase<T> where T : BaseEntit
 
     public IQueryable<T> Query() => DbSet.Where(e => e.Active);
 
-    // Exclusão lógica: a linha fica no banco com Active = false (as consultas daqui já filtram por Active),
-    // então o histórico não se perde e as FKs Restrict não barram a exclusão.
-
     public Task DeleteAsync(T entity) => DeleteRangeAsync([entity]);
 
     public async Task DeleteRangeAsync(List<T> entities)
