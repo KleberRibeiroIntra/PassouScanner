@@ -30,7 +30,7 @@ function AppLayout() {
       <header className="border-b bg-background">
         <div className="mx-auto flex h-14 max-w-5xl items-center gap-6 px-4">
           <Link to="/" className="font-semibold">
-            PassouScanner
+            Passou o Scanner
           </Link>
           <nav className="flex gap-4">
             <Link to="/" activeOptions={{ exact: true }} className={navLinkClass}>

@@ -2,7 +2,7 @@ import { createFileRoute, redirect, useNavigate } from '@tanstack/react-router'
 import { z } from 'zod'
 import { authApi } from '@/api/authApi'
 import { tokenStorage } from '@/api/tokenStorage'
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { LoginForm } from '@/features/auth/LoginForm'
 
 const loginSearchSchema = z.object({
@@ -29,8 +29,7 @@ function LoginPage() {
     <main className="flex min-h-svh items-center justify-center bg-muted/40 p-4">
       <Card className="w-full max-w-sm">
         <CardHeader>
-          <CardTitle className="text-xl">PassouScanner</CardTitle>
-          <CardDescription>Entre com seu e-mail e senha.</CardDescription>
+          <CardTitle className="text-xl">Passou o Scanner?</CardTitle>
         </CardHeader>
         <CardContent>
           <LoginForm

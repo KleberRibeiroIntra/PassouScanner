@@ -9,7 +9,7 @@ function HomePage() {
   return (
     <Card>
       <CardHeader>
-        <CardTitle className="text-lg">Bem-vindo ao PassouScanner</CardTitle>
+        <CardTitle className="text-lg">Bem-vindo ao Passou o Scanner</CardTitle>
         <CardDescription>Controle das peças trocadas e de quanto cada uma durou.</CardDescription>
       </CardHeader>
     </Card>
