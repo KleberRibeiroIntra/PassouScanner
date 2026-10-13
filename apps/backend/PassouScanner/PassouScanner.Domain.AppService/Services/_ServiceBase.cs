@@ -1,6 +1,5 @@
 using AutoMapper;
 using FluentValidation;
-using PassouScanner.Domain.AppService.Interfaces;
 using PassouScanner.Domain.AppService.Services.Interfaces;
 using PassouScanner.Domain.Entities;
 using PassouScanner.Domain.Repositories;

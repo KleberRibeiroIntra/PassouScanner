@@ -13,15 +13,7 @@ const loginSearchSchema = z.object({
     .catch(undefined),
 })
 
-export const Route = createFileRoute('/login')({
-  validateSearch: loginSearchSchema,
-  beforeLoad: ({ search }) => {
-    if (tokenStorage.get()) throw redirect({ href: search.redirect ?? '/' })
-  },
-  component: LoginPage,
-})
-
-function LoginPage() {
+export const LoginPage = () => {
   const { redirect: redirectTo } = Route.useSearch()
   const navigate = useNavigate()
 
@@ -41,3 +33,11 @@ function LoginPage() {
     </Center>
   )
 }
+
+export const Route = createFileRoute('/login')({
+  validateSearch: loginSearchSchema,
+  beforeLoad: ({ search }) => {
+    if (tokenStorage.get()) throw redirect({ href: search.redirect ?? '/' })
+  },
+  component: LoginPage,
+})
