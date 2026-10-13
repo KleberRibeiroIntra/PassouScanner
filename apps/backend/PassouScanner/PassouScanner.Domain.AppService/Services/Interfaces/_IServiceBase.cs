@@ -1,7 +1,6 @@
 using System.Linq.Expressions;
-using PassouScanner.Domain;
 
-namespace PassouScanner.Domain.AppService.Services;
+namespace PassouScanner.Domain.AppService.Services.Interfaces;
 
 public interface IServiceBase<TEntity, TRequest, TResponse> where TEntity : class
 {

@@ -1,7 +1,6 @@
 import type { HTMLInputTypeAttribute } from 'react'
+import { PasswordInput, TextInput } from '@mantine/core'
 import { Controller, type Control, type FieldValues, type Path } from 'react-hook-form'
-import { Field, FieldDescription, FieldError, FieldLabel } from '@/components/ui/field'
-import { Input } from '@/components/ui/input'
 
 interface FormTextFieldProps<T extends FieldValues> {
   control: Control<T>
@@ -24,21 +23,19 @@ export function FormTextField<T extends FieldValues>({
     <Controller
       control={control}
       name={name}
-      render={({ field, fieldState }) => (
-        <Field data-invalid={fieldState.invalid}>
-          <FieldLabel htmlFor={field.name}>{label}</FieldLabel>
-          <Input
-            {...field}
-            value={field.value ?? ''}
-            id={field.name}
-            type={type}
-            autoComplete={autoComplete}
-            aria-invalid={fieldState.invalid}
-          />
-          {description && <FieldDescription>{description}</FieldDescription>}
-          <FieldError errors={[fieldState.error]} />
-        </Field>
-      )}
+      render={({ field, fieldState }) => {
+        const props = {
+          ...field,
+          value: field.value ?? '',
+          id: field.name,
+          label,
+          description,
+          autoComplete,
+          error: fieldState.error?.message,
+        }
+
+        return type === 'password' ? <PasswordInput {...props} /> : <TextInput {...props} type={type} />
+      }}
     />
   )
 }

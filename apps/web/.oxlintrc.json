@@ -22,7 +22,7 @@
     {
       "files": [
         "src/routes/**",
-        "src/components/ui/**"
+        "src/test/**"
       ],
       "rules": {
         "react/only-export-components": "off"

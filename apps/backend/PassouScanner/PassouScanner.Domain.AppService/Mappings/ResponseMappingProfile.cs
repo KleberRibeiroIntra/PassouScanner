@@ -9,6 +9,6 @@ public class ResponseMappingProfile : Profile
     public ResponseMappingProfile()
     {
         CreateMap<User, UserResponse>()
-            .ForMember(dest => dest.Id, opt => opt.MapFrom(src => src.NavigationId));
+            .ForMember(dest => dest.NavigationId, opt => opt.MapFrom(src => src.NavigationId));
     }
 }

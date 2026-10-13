@@ -1,0 +1,10 @@
+:root .mantine-Input-wrapper[data-variant='default'] {
+  --input-bg: var(--app-input-bg);
+  --input-bd: var(--app-input-border);
+  --input-bd-focus: var(--app-ring);
+}
+
+.mantine-focus-auto:focus-visible,
+.mantine-focus-always:focus {
+  outline-color: var(--app-ring);
+}

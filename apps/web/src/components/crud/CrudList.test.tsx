@@ -86,7 +86,7 @@ describe('CrudList', () => {
     const { remove } = setup()
 
     await userEvent.click(await screen.findByRole('button', { name: 'Excluir Pastilha de freio' }))
-    const dialog = await screen.findByRole('alertdialog')
+    const dialog = await screen.findByRole('dialog')
     expect(remove).not.toHaveBeenCalled()
 
     await userEvent.click(within(dialog).getByRole('button', { name: 'Excluir' }))

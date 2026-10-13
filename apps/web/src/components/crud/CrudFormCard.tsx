@@ -1,13 +1,13 @@
 import type { ReactNode } from 'react'
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
+import { Card, Title } from '@mantine/core'
 
 export function CrudFormCard({ title, children }: { title: string; children: ReactNode }) {
   return (
-    <Card className="mx-auto w-full max-w-xl">
-      <CardHeader>
-        <CardTitle className="text-lg">{title}</CardTitle>
-      </CardHeader>
-      <CardContent>{children}</CardContent>
+    <Card maw={560} mx="auto" w="100%">
+      <Title order={3} mb="md">
+        {title}
+      </Title>
+      {children}
     </Card>
   )
 }

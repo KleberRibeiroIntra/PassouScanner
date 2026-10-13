@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using PassouScanner.Domain.AppService.Dtos.Requests;
 using PassouScanner.Domain.AppService.Dtos.Responses;
-using PassouScanner.Domain.AppService.Services;
+using PassouScanner.Domain.AppService.Interfaces;
 
 namespace PassouScanner.Api.Controllers;
 

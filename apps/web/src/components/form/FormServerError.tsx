@@ -1,11 +1,11 @@
-import { Alert, AlertDescription } from '@/components/ui/alert'
+import { Alert } from '@mantine/core'
 
 export function FormServerError({ message }: { message?: string }) {
   if (!message) return null
 
   return (
-    <Alert variant="destructive">
-      <AlertDescription>{message}</AlertDescription>
+    <Alert color="red" variant="light">
+      {message}
     </Alert>
   )
 }

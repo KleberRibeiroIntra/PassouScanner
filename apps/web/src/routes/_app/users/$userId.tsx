@@ -1,10 +1,10 @@
 import { useSuspenseQuery } from '@tanstack/react-query'
 import { createFileRoute } from '@tanstack/react-router'
-import { toast } from 'sonner'
 import { userApi } from '@/api/userApi'
 import { CrudFormCard } from '@/components/crud/CrudFormCard'
 import { UserForm } from '@/features/users/UserForm'
 import { useCrudMutations } from '@/hooks/useCrud'
+import { notify } from '@/lib/notify'
 
 export const Route = createFileRoute('/_app/users/$userId')({
   loader: ({ context: { queryClient }, params }) => queryClient.ensureQueryData(userApi.detailQuery(params.userId)),
@@ -25,7 +25,7 @@ function EditUserPage() {
         onCancel={() => navigate({ to: '/users' })}
         onSubmit={async (values) => {
           const updated = await update.mutateAsync({ id: userId, data: values })
-          toast.success(`${updated.name} atualizado.`)
+          notify.success(`${updated.name} atualizado.`)
           await navigate({ to: '/users' })
         }}
       />

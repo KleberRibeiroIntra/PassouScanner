@@ -1,5 +1,5 @@
+import { Card, Text, Title } from '@mantine/core'
 import { createFileRoute } from '@tanstack/react-router'
-import { Card, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 
 export const Route = createFileRoute('/_app/')({
   component: HomePage,
@@ -8,10 +8,10 @@ export const Route = createFileRoute('/_app/')({
 function HomePage() {
   return (
     <Card>
-      <CardHeader>
-        <CardTitle className="text-lg">Bem-vindo ao Passou o Scanner</CardTitle>
-        <CardDescription>Controle das peças trocadas e de quanto cada uma durou.</CardDescription>
-      </CardHeader>
+      <Title order={3}>Bem-vindo ao Passou o Scanner</Title>
+      <Text c="dimmed" size="sm" mt={4}>
+        Controle das peças trocadas e de quanto cada uma durou.
+      </Text>
     </Card>
   )
 }

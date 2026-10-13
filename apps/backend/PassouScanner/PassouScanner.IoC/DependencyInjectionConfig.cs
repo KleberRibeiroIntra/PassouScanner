@@ -3,6 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using PassouScanner.Domain.AppService.Mappings;
 using PassouScanner.Domain.AppService.Services;
+using PassouScanner.Domain.AppService.Services.Interfaces;
 using PassouScanner.Domain.AppService.Validators;
 using PassouScanner.Domain.Data;
 using PassouScanner.Domain.Data.Repositories;

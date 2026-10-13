@@ -4,7 +4,7 @@ using Microsoft.Data.Sqlite;
 using Microsoft.IdentityModel.Tokens;
 using PassouScanner.Api.Middlewares;
 using PassouScanner.Api.Security;
-using PassouScanner.Domain.AppService.Services;
+using PassouScanner.Domain.AppService.Services.Interfaces;
 using PassouScanner.Domain.Data;
 using PassouScanner.IoC;
 

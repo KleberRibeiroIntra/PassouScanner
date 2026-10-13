@@ -1,6 +1,7 @@
 import type { ComponentProps } from 'react'
-import { render, screen } from '@testing-library/react'
+import { screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
+import { render } from '@/test/utils'
 import { CrudListView } from './CrudListView'
 
 type Thing = { id: string; createdAt: string; updatedAt: null; active: boolean; name: string }

@@ -1,5 +1,6 @@
 using AutoMapper;
 using FluentValidation;
+using PassouScanner.Domain.AppService.Interfaces;
 using PassouScanner.Domain.Repositories;
 using System.Linq.Expressions;
 

@@ -1,6 +1,8 @@
 import type { ReactNode } from 'react'
+import { MantineProvider } from '@mantine/core'
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
-import { render } from '@testing-library/react'
+import { render as testingLibraryRender } from '@testing-library/react'
+import { cssVariablesResolver, theme } from '@/theme'
 
 export function createTestQueryClient() {
   return new QueryClient({
@@ -11,10 +13,24 @@ export function createTestQueryClient() {
   })
 }
 
+export function TestProviders({ children, queryClient }: { children: ReactNode; queryClient?: QueryClient }) {
+  const content = (
+    <MantineProvider theme={theme} cssVariablesResolver={cssVariablesResolver} defaultColorScheme="dark" env="test">
+      {children}
+    </MantineProvider>
+  )
+
+  return queryClient ? <QueryClientProvider client={queryClient}>{content}</QueryClientProvider> : content
+}
+
+export function render(ui: ReactNode) {
+  return testingLibraryRender(<TestProviders>{ui}</TestProviders>)
+}
+
 export function renderWithQuery(ui: ReactNode, queryClient = createTestQueryClient()) {
   return {
     queryClient,
-    ...render(<QueryClientProvider client={queryClient}>{ui}</QueryClientProvider>),
+    ...testingLibraryRender(<TestProviders queryClient={queryClient}>{ui}</TestProviders>),
   }
 }
 

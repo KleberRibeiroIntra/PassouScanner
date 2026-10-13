@@ -1,8 +1,8 @@
+import { Card, Center, Title } from '@mantine/core'
 import { createFileRoute, redirect, useNavigate } from '@tanstack/react-router'
 import { z } from 'zod'
 import { authApi } from '@/api/authApi'
 import { tokenStorage } from '@/api/tokenStorage'
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { LoginForm } from '@/features/auth/LoginForm'
 
 const loginSearchSchema = z.object({
@@ -26,20 +26,18 @@ function LoginPage() {
   const navigate = useNavigate()
 
   return (
-    <main className="flex min-h-svh items-center justify-center bg-muted/40 p-4">
-      <Card className="w-full max-w-sm">
-        <CardHeader>
-          <CardTitle className="text-xl">Passou o Scanner?</CardTitle>
-        </CardHeader>
-        <CardContent>
-          <LoginForm
-            onSubmit={async (values) => {
-              await authApi.login(values)
-              await navigate({ href: redirectTo ?? '/' })
-            }}
-          />
-        </CardContent>
+    <Center component="main" mih="100svh" bg="var(--app-bg)" p="md">
+      <Card w="100%" maw={380}>
+        <Title order={3} mb="md">
+          Passou o Scanner?
+        </Title>
+        <LoginForm
+          onSubmit={async (values) => {
+            await authApi.login(values)
+            await navigate({ href: redirectTo ?? '/' })
+          }}
+        />
       </Card>
-    </main>
+    </Center>
   )
 }

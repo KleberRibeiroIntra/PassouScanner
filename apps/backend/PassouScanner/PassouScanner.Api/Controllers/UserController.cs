@@ -4,7 +4,7 @@ using PassouScanner.Domain;
 using PassouScanner.Domain.AppService.Dtos.QueryRequests;
 using PassouScanner.Domain.AppService.Dtos.Requests;
 using PassouScanner.Domain.AppService.Dtos.Responses;
-using PassouScanner.Domain.AppService.Services;
+using PassouScanner.Domain.AppService.Interfaces;
 
 namespace PassouScanner.Api.Controllers;
 
@@ -38,7 +38,7 @@ public class UserController : ControllerBase
     public async Task<ActionResult<UserResponse>> Create(UserRequest request)
     {
         var created = await _userService.CreateAsync(request);
-        return CreatedAtAction(nameof(GetById), new { id = created.Id }, created);
+        return CreatedAtAction(nameof(GetById), new { id = created.NavigationId }, created);
     }
 
     [HttpPut("{id:guid}")]

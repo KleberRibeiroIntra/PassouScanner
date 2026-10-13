@@ -1,7 +1,7 @@
 import { useState, type FormEvent } from 'react'
-import { toast } from 'sonner'
 import type { CrudApi } from '@/api/createCrudApi'
 import { useCrudList, useCrudMutations } from '@/hooks/useCrud'
+import { notify } from '@/lib/notify'
 import type { BaseEntity } from '@/types/BaseEntity'
 import { FilterCondition, type DynamicQuery, type PropertySort } from '@/types/DynamicQuery'
 
@@ -56,10 +56,10 @@ export function useCrudListPage<TEntity extends BaseEntity, TRequest>({
     if (!itemToDelete) return
     try {
       await remove.mutateAsync(itemToDelete.id)
-      toast.success(`${describe(itemToDelete)} excluído.`)
+      notify.success(`${describe(itemToDelete)} excluído.`)
       if (items.length === 1 && page > 0) onStateChange({ page: page - 1 || undefined, search: currentSearch })
     } catch {
-      toast.error(`Não foi possível excluir ${describe(itemToDelete)}.`)
+      notify.error(`Não foi possível excluir ${describe(itemToDelete)}.`)
     } finally {
       setItemToDelete(null)
     }

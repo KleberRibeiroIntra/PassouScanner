@@ -7,6 +7,6 @@ export const userColumns: CrudColumn<User>[] = [
   {
     header: 'Criado em',
     cell: (user) => new Date(user.createdAt).toLocaleDateString('pt-BR'),
-    className: 'w-32',
+    width: 120,
   },
 ]

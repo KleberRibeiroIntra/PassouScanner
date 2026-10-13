@@ -3,6 +3,7 @@ using FluentValidation;
 using FluentValidation.Results;
 using PassouScanner.Domain.AppService.Dtos.Requests;
 using PassouScanner.Domain.AppService.Dtos.Responses;
+using PassouScanner.Domain.AppService.Interfaces;
 using PassouScanner.Domain.Entities;
 using PassouScanner.Domain.Repositories;
 using PassouScanner.Domain.Security;

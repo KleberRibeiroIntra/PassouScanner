@@ -2,7 +2,7 @@ using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
 using Microsoft.IdentityModel.Tokens;
-using PassouScanner.Domain.AppService.Services;
+using PassouScanner.Domain.AppService.Services.Interfaces;
 using PassouScanner.Domain.Entities;
 
 namespace PassouScanner.Api.Security;

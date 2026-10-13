@@ -1,27 +1,13 @@
 import type { ReactNode } from 'react'
+import { ActionIcon, Alert, Button, Card, Group, Modal, Stack, Table, Text, TextInput, Title } from '@mantine/core'
 import { Pencil, Plus, Search, Trash2 } from 'lucide-react'
-import { Alert, AlertDescription } from '@/components/ui/alert'
-import {
-  AlertDialog,
-  AlertDialogAction,
-  AlertDialogCancel,
-  AlertDialogContent,
-  AlertDialogDescription,
-  AlertDialogFooter,
-  AlertDialogHeader,
-  AlertDialogTitle,
-} from '@/components/ui/alert-dialog'
-import { Button } from '@/components/ui/button'
-import { Card, CardAction, CardContent, CardFooter, CardHeader, CardTitle } from '@/components/ui/card'
-import { Input } from '@/components/ui/input'
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table'
 import type { BaseEntity } from '@/types/BaseEntity'
 import type { CrudListPage } from './useCrudListPage'
 
 export interface CrudColumn<T> {
   header: string
   cell: (item: T) => ReactNode
-  className?: string
+  width?: number | string
 }
 
 interface CrudListViewProps<TEntity extends BaseEntity> extends CrudListPage<TEntity> {
@@ -63,119 +49,119 @@ export function CrudListView<TEntity extends BaseEntity>({
 
   return (
     <Card>
-      <CardHeader>
-        <CardTitle className="text-lg">{title}</CardTitle>
-        <CardAction>
-          <Button onClick={onNew}>
-            <Plus /> Novo
-          </Button>
-        </CardAction>
-      </CardHeader>
+      <Group justify="space-between" mb="md">
+        <Title order={3}>{title}</Title>
+        <Button leftSection={<Plus size={16} />} onClick={onNew}>
+          Novo
+        </Button>
+      </Group>
 
-      <CardContent className="flex flex-col gap-4">
+      <Stack>
         {searchEnabled && (
-          <form onSubmit={submitSearch} className="flex gap-2" role="search">
-            <Input
-              value={searchInput}
-              onChange={(event) => setSearchInput(event.target.value)}
-              placeholder="Buscar..."
-              aria-label="Buscar"
-            />
-            <Button type="submit" variant="outline">
-              <Search /> Buscar
-            </Button>
+          <form onSubmit={submitSearch} role="search">
+            <Group gap="xs">
+              <TextInput
+                flex={1}
+                value={searchInput}
+                onChange={(event) => setSearchInput(event.currentTarget.value)}
+                placeholder="Buscar..."
+                aria-label="Buscar"
+              />
+              <Button type="submit" variant="default" leftSection={<Search size={16} />}>
+                Buscar
+              </Button>
+            </Group>
           </form>
         )}
 
         {errorMessage ? (
-          <Alert variant="destructive">
-            <AlertDescription>{errorMessage}</AlertDescription>
+          <Alert color="red" variant="light">
+            {errorMessage}
           </Alert>
         ) : (
-          <Table className={isStale ? 'opacity-60' : undefined}>
-            <TableHeader>
-              <TableRow>
+          <Table striped highlightOnHover opacity={isStale ? 0.6 : 1}>
+            <Table.Thead>
+              <Table.Tr>
                 {columns.map((column) => (
-                  <TableHead key={column.header} className={column.className}>
+                  <Table.Th key={column.header} w={column.width}>
                     {column.header}
-                  </TableHead>
+                  </Table.Th>
                 ))}
-                <TableHead className="w-24 text-right">Ações</TableHead>
-              </TableRow>
-            </TableHeader>
-            <TableBody>
+                <Table.Th w={96} ta="right">
+                  Ações
+                </Table.Th>
+              </Table.Tr>
+            </Table.Thead>
+            <Table.Tbody>
               {isPending ? (
-                <TableRow>
-                  <TableCell colSpan={colSpan} className="text-center text-muted-foreground">
+                <Table.Tr>
+                  <Table.Td colSpan={colSpan} ta="center" c="dimmed">
                     Carregando...
-                  </TableCell>
-                </TableRow>
+                  </Table.Td>
+                </Table.Tr>
               ) : items.length === 0 ? (
-                <TableRow>
-                  <TableCell colSpan={colSpan} className="text-center text-muted-foreground">
+                <Table.Tr>
+                  <Table.Td colSpan={colSpan} ta="center" c="dimmed">
                     Nenhum registro encontrado.
-                  </TableCell>
-                </TableRow>
+                  </Table.Td>
+                </Table.Tr>
               ) : (
                 items.map((item) => (
-                  <TableRow key={item.id}>
+                  <Table.Tr key={item.id}>
                     {columns.map((column) => (
-                      <TableCell key={column.header} className={column.className}>
-                        {column.cell(item)}
-                      </TableCell>
+                      <Table.Td key={column.header}>{column.cell(item)}</Table.Td>
                     ))}
-                    <TableCell className="text-right">
-                      <Button variant="ghost" size="icon-sm" aria-label={`Editar ${describe(item)}`} onClick={() => onEdit(item)}>
-                        <Pencil />
-                      </Button>
-                      <Button
-                        variant="ghost"
-                        size="icon-sm"
-                        aria-label={`Excluir ${describe(item)}`}
-                        onClick={() => requestDelete(item)}
-                      >
-                        <Trash2 />
-                      </Button>
-                    </TableCell>
-                  </TableRow>
+                    <Table.Td>
+                      <Group gap={4} justify="flex-end" wrap="nowrap">
+                        <ActionIcon variant="subtle" color="gray" aria-label={`Editar ${describe(item)}`} onClick={() => onEdit(item)}>
+                          <Pencil size={16} />
+                        </ActionIcon>
+                        <ActionIcon
+                          variant="subtle"
+                          color="red"
+                          aria-label={`Excluir ${describe(item)}`}
+                          onClick={() => requestDelete(item)}
+                        >
+                          <Trash2 size={16} />
+                        </ActionIcon>
+                      </Group>
+                    </Table.Td>
+                  </Table.Tr>
                 ))
               )}
-            </TableBody>
+            </Table.Tbody>
           </Table>
         )}
-      </CardContent>
+      </Stack>
 
-      <CardFooter className="justify-between text-sm text-muted-foreground">
-        <span>
+      <Group justify="space-between" mt="md">
+        <Text size="sm" c="dimmed">
           {totalRows} {totalRows === 1 ? 'registro' : 'registros'}
-        </span>
-        <div className="flex items-center gap-2">
-          <Button variant="outline" size="sm" disabled={!canGoPrevious} onClick={goToPrevious}>
+        </Text>
+        <Group gap="xs">
+          <Button variant="default" size="xs" disabled={!canGoPrevious} onClick={goToPrevious}>
             Anterior
           </Button>
-          <span>
+          <Text size="sm" c="dimmed">
             Página {page + 1} de {totalPages}
-          </span>
-          <Button variant="outline" size="sm" disabled={!canGoNext} onClick={goToNext}>
+          </Text>
+          <Button variant="default" size="xs" disabled={!canGoNext} onClick={goToNext}>
             Próxima
           </Button>
-        </div>
-      </CardFooter>
+        </Group>
+      </Group>
 
-      <AlertDialog open={itemToDelete !== null} onOpenChange={(open) => !open && cancelDelete()}>
-        <AlertDialogContent>
-          <AlertDialogHeader>
-            <AlertDialogTitle>Excluir registro?</AlertDialogTitle>
-            <AlertDialogDescription>{itemToDelete && `${describe(itemToDelete)} será excluído.`}</AlertDialogDescription>
-          </AlertDialogHeader>
-          <AlertDialogFooter>
-            <AlertDialogCancel>Cancelar</AlertDialogCancel>
-            <AlertDialogAction variant="destructive" onClick={confirmDelete} disabled={isDeleting}>
-              Excluir
-            </AlertDialogAction>
-          </AlertDialogFooter>
-        </AlertDialogContent>
-      </AlertDialog>
+      <Modal opened={itemToDelete !== null} onClose={cancelDelete} title="Excluir registro?" centered>
+        <Text size="sm">{itemToDelete && `${describe(itemToDelete)} será excluído.`}</Text>
+        <Group justify="flex-end" mt="lg">
+          <Button variant="default" onClick={cancelDelete}>
+            Cancelar
+          </Button>
+          <Button color="red" onClick={confirmDelete} loading={isDeleting}>
+            Excluir
+          </Button>
+        </Group>
+      </Modal>
     </Card>
   )
 }
