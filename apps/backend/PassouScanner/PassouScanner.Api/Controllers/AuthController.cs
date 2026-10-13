@@ -2,8 +2,8 @@ using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using PassouScanner.Domain.AppService.Dtos.Requests;
-using PassouScanner.Domain.AppService.Dtos.Responses;
+using PassouScanner.Domain.AppService.Dtos.Requests.UserRequests;
+using PassouScanner.Domain.AppService.Dtos.Responses.UserResponses;
 using PassouScanner.Domain.AppService.Interfaces;
 
 namespace PassouScanner.Api.Controllers;

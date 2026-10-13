@@ -1,9 +1,10 @@
 using AutoMapper;
 using FluentValidation;
 using FluentValidation.Results;
-using PassouScanner.Domain.AppService.Dtos.Requests;
-using PassouScanner.Domain.AppService.Dtos.Responses;
+using PassouScanner.Domain.AppService.Dtos.Requests.UserRequests;
+using PassouScanner.Domain.AppService.Dtos.Responses.UserResponses;
 using PassouScanner.Domain.AppService.Interfaces;
+using PassouScanner.Domain.AppService.Services.Interfaces;
 using PassouScanner.Domain.Entities;
 using PassouScanner.Domain.Repositories;
 using PassouScanner.Domain.Security;
@@ -16,8 +17,8 @@ public class UserService : ServiceBase<User, UserRequest, UserResponse>, IUserSe
     private readonly IMapper _mapper;
     private readonly IJwtTokenGenerator _tokenGenerator;
 
-    public UserService(IUserRepository repository, IMapper mapper, IValidator<User> validator, IJwtTokenGenerator tokenGenerator)
-        : base(repository, mapper, validator)
+    public UserService(IUserRepository repository, IMapper mapper, ICurrentUser currentUser, IValidator<User> validator, IJwtTokenGenerator tokenGenerator)
+        : base(repository, mapper, currentUser, validator)
     {
         _userRepository = repository;
         _mapper = mapper;

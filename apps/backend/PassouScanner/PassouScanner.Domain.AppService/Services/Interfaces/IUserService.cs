@@ -1,5 +1,6 @@
-using PassouScanner.Domain.AppService.Dtos.Requests;
-using PassouScanner.Domain.AppService.Dtos.Responses;
+using PassouScanner.Domain.AppService.Dtos.Requests.UserRequests;
+using PassouScanner.Domain.AppService.Dtos.Responses.UserResponses;
+using PassouScanner.Domain.AppService.Services.Interfaces;
 using PassouScanner.Domain.Entities;
 
 namespace PassouScanner.Domain.AppService.Interfaces;

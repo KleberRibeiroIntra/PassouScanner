@@ -1,22 +1,38 @@
 using AutoMapper;
 using FluentValidation;
 using PassouScanner.Domain.AppService.Interfaces;
+using PassouScanner.Domain.AppService.Services.Interfaces;
+using PassouScanner.Domain.Entities;
 using PassouScanner.Domain.Repositories;
 using System.Linq.Expressions;
 
 namespace PassouScanner.Domain.AppService.Services;
 
-public abstract class ServiceBase<TEntity, TRequest, TResponse> : IServiceBase<TEntity, TRequest, TResponse> where TEntity : class
+public abstract class ServiceBase<TEntity, TRequest, TResponse> : IServiceBase<TEntity, TRequest, TResponse> where TEntity : BaseEntity
 {
     protected readonly IRepositoryBase<TEntity> Repository;
     protected readonly IMapper Mapper;
+    protected readonly ICurrentUser CurrentUser;
     protected readonly IValidator<TEntity>? Validator;
 
-    protected ServiceBase(IRepositoryBase<TEntity> repository, IMapper mapper, IValidator<TEntity>? validator = null)
+    protected ServiceBase(IRepositoryBase<TEntity> repository, IMapper mapper, ICurrentUser currentUser, IValidator<TEntity>? validator = null)
     {
         Repository = repository;
         Mapper = mapper;
+        CurrentUser = currentUser;
         Validator = validator;
+    }
+
+    private void SetCreatedBy(BaseEntity entity)
+    {
+        if (entity.CreatedBy == Guid.Empty && CurrentUser.UserId is { } userId)
+            entity.CreatedBy = userId;
+    }
+
+    private void SetUpdatedBy(BaseEntity entity)
+    {
+        if (CurrentUser.UserId is { } userId)
+            entity.UpdatedBy = userId;
     }
 
     protected virtual Task ValidateCreateAsync(TEntity entity) => ValidateAsync(entity);
@@ -37,6 +53,7 @@ public abstract class ServiceBase<TEntity, TRequest, TResponse> : IServiceBase<T
 
     public async Task<TResponse> CreateAsync(TEntity entity, bool isActive = true)
     {
+        SetCreatedBy(entity);
         await ValidateCreateAsync(entity);
         var created = await Repository.AddAsync(entity, isActive);
         return Mapper.Map<TResponse>(created);
@@ -45,7 +62,10 @@ public abstract class ServiceBase<TEntity, TRequest, TResponse> : IServiceBase<T
     public async Task<List<TResponse>> CreateRangeAsync(List<TEntity> entities)
     {
         foreach (var entity in entities)
+        {
+            SetCreatedBy(entity);
             await ValidateCreateAsync(entity);
+        }
 
         var created = await Repository.AddRangeAsync(entities);
         return Mapper.Map<List<TResponse>>(created);
@@ -53,6 +73,7 @@ public abstract class ServiceBase<TEntity, TRequest, TResponse> : IServiceBase<T
 
     public async Task<TResponse> UpdateAsync(TEntity entity)
     {
+        SetUpdatedBy(entity);
         await ValidateUpdateAsync(entity);
         var updated = await Repository.UpdateAsync(entity);
         return Mapper.Map<TResponse>(updated);
@@ -71,14 +92,22 @@ public abstract class ServiceBase<TEntity, TRequest, TResponse> : IServiceBase<T
     public async Task UpdateRangeAsync(List<TEntity> entities)
     {
         foreach (var entity in entities)
+        {
+            SetUpdatedBy(entity);
             await ValidateUpdateAsync(entity);
+        }
 
         await Repository.UpdateRangeAsync(entities);
     }
 
     public Task<TEntity1> UpdateDataAsync<TEntity1>(TEntity1 entity,
         params Expression<Func<TEntity1, IEnumerable<object>>>[] collections) where TEntity1 : class
-        => Repository.UpdateDataAsync(entity, collections);
+    {
+        if (entity is BaseEntity baseEntity)
+            SetUpdatedBy(baseEntity);
+
+        return Repository.UpdateDataAsync(entity, collections);
+    }
 
     public async Task<TResponse?> GetByIdAsync(Guid id)
     {
@@ -113,7 +142,7 @@ public abstract class ServiceBase<TEntity, TRequest, TResponse> : IServiceBase<T
 
     public IQueryable<TEntity> Query() => Repository.Query();
 
-    public Task DeleteAsync(TEntity entity) => Repository.DeleteAsync(entity);
+    public Task DeleteAsync(TEntity entity) => DeleteRangeAsync([entity]);
 
     public async Task<bool> DeleteAsync(Guid navigationId)
     {
@@ -125,7 +154,17 @@ public abstract class ServiceBase<TEntity, TRequest, TResponse> : IServiceBase<T
         return true;
     }
 
-    public Task DeleteRangeAsync(List<TEntity> entities) => Repository.DeleteRangeAsync(entities);
+    public Task DeleteRangeAsync(List<TEntity> entities)
+    {
+        foreach (var entity in entities)
+            SetUpdatedBy(entity);
 
-    public Task DeleteRangeAsync(List<Guid> navigationIds) => Repository.DeleteRangeAsync(navigationIds);
+        return Repository.DeleteRangeAsync(entities);
+    }
+
+    public async Task DeleteRangeAsync(List<Guid> navigationIds)
+    {
+        var entities = await Repository.GetAllAsync(e => navigationIds.Contains(e.NavigationId));
+        await DeleteRangeAsync(entities);
+    }
 }

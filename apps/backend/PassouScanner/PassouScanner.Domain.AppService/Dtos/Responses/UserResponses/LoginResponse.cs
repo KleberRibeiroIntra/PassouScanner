@@ -1,4 +1,4 @@
-namespace PassouScanner.Domain.AppService.Dtos.Responses;
+namespace PassouScanner.Domain.AppService.Dtos.Responses.UserResponses;
 
 public class LoginResponse
 {

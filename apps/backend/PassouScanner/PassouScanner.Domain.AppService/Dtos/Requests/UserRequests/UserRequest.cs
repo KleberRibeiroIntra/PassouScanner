@@ -1,4 +1,4 @@
-namespace PassouScanner.Domain.AppService.Dtos.Requests;
+namespace PassouScanner.Domain.AppService.Dtos.Requests.UserRequests;
 
 public class UserRequest
 {
